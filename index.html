@@ -3,20 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>San Valentín 💖</title>
+<title>Regalo ❤️</title>
 <style>
 body{
   margin:0;
   font-family: Arial, sans-serif;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
   height:100vh;
   background: linear-gradient(to bottom, #ff9a9e, #ffc0cb);
   overflow:hidden;
+  flex-direction:column;
 }
 
+/* Mensaje inicial */
 #mensajeInicial{
   font-size:2rem;
   margin-bottom:30px;
@@ -25,55 +26,55 @@ body{
   text-align:center;
 }
 
+/* Caja */
 .cajita{
-  width:180px;
-  height:180px;
-  background-color:#ff4b5c;
-  border-radius:20px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  cursor:pointer;
-  transform:scale(1);
-  transition: transform 0.3s ease;
-  font-size:4rem;
-  color:white;
+  width:150px;
+  height:150px;
   position:relative;
+  cursor:pointer;
   perspective:600px;
 }
 
-.tapa{
-  width:100%;
-  height:50%;
-  background:#ff1f4b;
-  border-radius:20px 20px 0 0;
+.lado{
   position:absolute;
-  top:0;
-  left:0;
-  transform-origin:top;
-  transform: rotateX(0deg);
-  transition: transform 0.8s ease;
+  width:150px;
+  height:150px;
+  background:#ff4b5c;
+  border-radius:10px;
+  transition: all 0.8s ease;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:3rem;
+  color:white;
 }
+
+/* 4 lados */
+.top{top:0; left:0;}
+.bottom{bottom:0; left:0;}
+.left{top:0; left:0;}
+.right{top:0; right:0;}
 
 .texto{
   margin-top:20px;
-  font-size:1.8rem;
+  font-size:1.5rem;
   color:white;
   text-align:center;
-  min-height:50px;
+  min-height:80px;
+  max-width:90%;
 }
 
 /* corazones flotando */
 .corazon{
   position:absolute;
-  color:white;
+  color:#ff1f4b;
   font-size:25px;
-  animation:flotar 6s linear infinite;
+  animation:flotar 6s linear forwards;
 }
 
 @keyframes flotar{
-  from{transform:translateY(100vh);}
-  to{transform:translateY(-10vh);}
+  from{transform:translateY(0);}
+  to{transform:translateY(-300px);}
 }
 </style>
 </head>
@@ -82,56 +83,57 @@ body{
 <div id="mensajeInicial">Para mi noviecita preciosa ❤️</div>
 
 <div class="cajita" id="cajita">
-  <div class="tapa" id="tapa"></div>
-  🎁
+  <div class="lado top">🎁</div>
+  <div class="lado bottom"></div>
+  <div class="lado left"></div>
+  <div class="lado right"></div>
 </div>
 
 <div class="texto" id="texto"></div>
 
 <script>
-// mostrar mensaje inicial
 const mensajeIni = document.getElementById('mensajeInicial');
 setTimeout(()=>{ mensajeIni.style.opacity=1; },500);
 
-// texto que se escribe
-const texto = document.getElementById('texto');
-const mensajeTexto = "Te amo bonita ❤️";
-let i = 0;
-
-// abrir cajita
 const cajita = document.getElementById('cajita');
-const tapa = document.getElementById('tapa');
+const lados = cajita.querySelectorAll('.lado');
+const texto = document.getElementById('texto');
+const mensajeTexto = "No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. Feliz 14 de febrero a la mujer más bonita del mundo. Que la distancia solo sea un recordatorio de lo mucho que te quiero y de lo mucho que te necesito conmigo. Te amo siempre💓. Te amo bonita ❤️";
 
-cajita.addEventListener('click', () => {
-  // animar la tapa
-  tapa.style.transform = "rotateX(-120deg)";
-  
-  // esperar medio segundo y mostrar mensaje
-  setTimeout(()=>{
-    cajita.style.transform = "scale(0.9)";
-    texto.innerHTML = '';
-    i = 0;
+cajita.addEventListener('click', ()=>{
+  // Animar apertura de 4 lados
+  lados.forEach(lado=>{
+    if(lado.classList.contains('top')) lado.style.transform = 'translateY(-200px) rotateX(45deg)';
+    if(lado.classList.contains('bottom')) lado.style.transform = 'translateY(200px) rotateX(-45deg)';
+    if(lado.classList.contains('left')) lado.style.transform = 'translateX(-200px) rotateY(-45deg)';
+    if(lado.classList.contains('right')) lado.style.transform = 'translateX(200px) rotateY(45deg)';
+  });
 
-    function escribir() {
-      if(i < mensajeTexto.length){
-        texto.innerHTML += mensajeTexto[i];
-        i++;
-        setTimeout(escribir,100);
-      }
+  // Lanzar corazones desde la caja
+  for(let i=0;i<30;i++){
+    setTimeout(()=>{
+      const corazon = document.createElement('div');
+      corazon.classList.add('corazon');
+      corazon.innerHTML="❤️";
+      corazon.style.left = (cajita.offsetLeft + 75) + Math.random()*50 -25 + "px";
+      corazon.style.top = (cajita.offsetTop + 75) + "px";
+      document.body.appendChild(corazon);
+      setTimeout(()=>{ corazon.remove(); },6000);
+    }, i*100);
+  }
+
+  // Escribir mensaje letra por letra
+  texto.innerHTML = '';
+  let i = 0;
+  function escribir(){
+    if(i<mensajeTexto.length){
+      texto.innerHTML += mensajeTexto[i];
+      i++;
+      setTimeout(escribir,40);
     }
-    escribir();
-  },500);
+  }
+  setTimeout(escribir, 800); // espera que la caja abra
 });
-
-// corazones flotando
-setInterval(()=>{
-  const corazon = document.createElement("div");
-  corazon.classList.add("corazon");
-  corazon.innerHTML="❤️";
-  corazon.style.left=Math.random()*100+"vw";
-  document.body.appendChild(corazon);
-  setTimeout(()=>{ corazon.remove(); },6000);
-},500);
 </script>
 
 </body>
