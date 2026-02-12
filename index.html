@@ -3,87 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi noviecita preciosa</title>
+    <title>Para mi niña</title>
     <style>
         body {
-            background-color: #ffe6e6;
+            background-color: #fff0f3;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             font-family: 'Arial', sans-serif;
-            overflow: hidden;
         }
 
         h1 {
-            color: #d63384;
-            margin-bottom: 50px;
-            font-size: 2rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* Contenedor de la caja */
-        .box-container {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            cursor: pointer;
-        }
-
-        /* Texto oculto en el centro */
-        .message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
+            color: #ff4d6d;
             text-align: center;
-            color: #b91d47;
-            font-weight: bold;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            z-index: 1;
+            margin-bottom: 20px;
+            z-index: 10;
         }
 
-        /* Lados de la caja */
-        .side {
+        /* Contenedor principal */
+        .gift-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* El mensaje de texto que estará adentro */
+        .message-inside {
             position: absolute;
-            background-color: #ff4d6d;
-            border: 2px solid #ff758f;
-            transition: all 0.8s ease-in-out;
-            z-index: 2;
+            padding: 20px;
+            text-align: center;
+            color: #c9184a;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.5;
+            z-index: 1; /* Detrás de las tapas al inicio */
         }
 
-        .top    { width: 100%; height: 50%; top: 0; left: 0; transform-origin: top; }
-        .bottom { width: 100%; height: 50%; bottom: 0; left: 0; transform-origin: bottom; }
-        .left   { width: 50%; height: 100%; top: 0; left: 0; transform-origin: left; }
-        .right  { width: 50%; height: 100%; top: 0; right: 0; transform-origin: right; }
+        /* Las tapas de la caja */
+        .lid {
+            position: absolute;
+            background-color: #ff758f;
+            border: 1px solid #ffb3c1;
+            transition: all 1s ease-in-out;
+            z-index: 5;
+        }
 
-        /* Efecto al abrir (Hover o Click) */
-        .box-container:hover .top    { transform: rotateX(110deg); opacity: 0.3; }
-        .box-container:hover .bottom { transform: rotateX(-110deg); opacity: 0.3; }
-        .box-container:hover .left   { transform: rotateY(-110deg); opacity: 0.3; }
-        .box-container:hover .right  { transform: rotateY(110deg); opacity: 0.3; }
+        /* Posiciones iniciales (Cerrada) */
+        .top    { width: 100%; height: 50%; top: 0; transform-origin: top; }
+        .bottom { width: 100%; height: 50%; bottom: 0; transform-origin: bottom; }
+        .left   { width: 50%; height: 100%; left: 0; transform-origin: left; }
+        .right  { width: 50%; height: 100%; right: 0; transform-origin: right; }
+
+        /* Efecto al pasar el mouse o tocar */
+        .gift-container:hover .top    { transform: perspective(1000px) rotateX(110deg); opacity: 0.5; }
+        .gift-container:hover .bottom { transform: perspective(1000px) rotateX(-110deg); opacity: 0.5; }
+        .gift-container:hover .left   { transform: perspective(1000px) rotateY(-110deg); opacity: 0.5; }
+        .gift-container:hover .right  { transform: perspective(1000px) rotateY(110deg); opacity: 0.5; }
 
         /* Corazones animados */
-        @keyframes float {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        @keyframes shoot {
+            0% { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 0; }
         }
 
         .heart {
             position: absolute;
-            color: #ff0000;
-            font-size: 20px;
-            pointer-events: none;
             display: none;
+            color: red;
+            font-size: 24px;
+            z-index: 6;
         }
 
-        .box-container:hover .heart {
+        .gift-container:hover .heart {
             display: block;
-            animation: float 2s infinite ease-out;
+            animation: shoot 1.5s infinite;
         }
     </style>
 </head>
@@ -91,27 +90,30 @@
 
     <h1>Para mi noviecita preciosa</h1>
 
-    <div class="box-container">
-        <div class="message">
+    <div class="gift-container">
+        <div class="message-inside">
             No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. 
             <br><br>
             Feliz 14 de febrero a la mujer más bonita del mundo. 
             <br><br>
-            Que la distancia solo sea un recordatorio de lo mucho que te quiero. Te amo siempre💓.
+            Que la distancia solo sea un recordatorio de lo mucho que te quiero y de lo mucho que te necesito conmigo. 
+            <br><br>
+            Te amo siempre💓.
         </div>
 
-        <div class="side top"></div>
-        <div class="side bottom"></div>
-        <div class="side left"></div>
-        <div class="side right"></div>
+        <div class="lid top"></div>
+        <div class="lid bottom"></div>
+        <div class="lid left"></div>
+        <div class="lid right"></div>
 
-        <span class="heart" style="left: 20%; animation-delay: 0s;">❤️</span>
-        <span class="heart" style="left: 50%; animation-delay: 0.5s;">💖</span>
-        <span class="heart" style="left: 80%; animation-delay: 0.2s;">💗</span>
-        <span class="heart" style="left: 40%; animation-delay: 0.8s;">❤️</span>
+        <span class="heart" style="--x: -100px; --y: -150px;">❤️</span>
+        <span class="heart" style="--x: 100px; --y: -150px;">💖</span>
+        <span class="heart" style="--x: -120px; --y: 100px;">💗</span>
+        <span class="heart" style="--x: 120px; --y: 100px;">❤️</span>
+        <span class="heart" style="--x: 0px; --y: -180px;">💕</span>
     </div>
 
-    <p style="margin-top: 40px; color: #888; font-size: 0.8rem;">(Pasa el mouse o toca la cajita)</p>
+    <p style="margin-top: 20px; color: #ff85a1;">(Pasa el mouse o toca la cajita para abrirla)</p>
 
 </body>
 </html>
