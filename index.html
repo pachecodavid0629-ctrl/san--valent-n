@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Ti ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: white;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+p {
+  font-size: 18px;
+  margin: 20px;
+}
+
+.heart {
+  font-size: 50px;
+  animation: latido 1s infinite;
+}
+
+@keyframes latido {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+button {
+  background: white;
+  color: #ff4b5c;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Para la persona que ilumina mis días ❤️</h1>
+  <p>
+    Desde que llegaste a mi vida, todo es más bonito.
+    Gracias por existir y por hacerme tan feliz.
+  </p>
+
+  <div class="heart">❤️</div>
+
+  <br><br>
+
+  <button onclick="mensaje()">Toca aquí 💌</button>
+</div>
+
+<script>
+function mensaje() {
+  alert("Te amo muchísimo ❤️ Gracias por estar conmigo.");
+}
+</script>
+
+</body>
+</html>
