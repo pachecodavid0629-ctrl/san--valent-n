@@ -1,140 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Regalo ❤️</title>
-<style>
-body{
-  margin:0;
-  font-family: Arial, sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  background: linear-gradient(to bottom, #ff9a9e, #ffc0cb);
-  overflow:hidden;
-  flex-direction:column;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi noviecita preciosa</title>
+    <style>
+        body {
+            background-color: #ffe6e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
 
-/* Mensaje inicial */
-#mensajeInicial{
-  font-size:2rem;
-  margin-bottom:30px;
-  opacity:0;
-  transition: opacity 2s;
-  text-align:center;
-}
+        h1 {
+            color: #d63384;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
 
-/* Caja */
-.cajita{
-  width:150px;
-  height:150px;
-  position:relative;
-  cursor:pointer;
-  perspective:600px;
-}
+        /* Contenedor de la caja */
+        .box-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            cursor: pointer;
+        }
 
-.lado{
-  position:absolute;
-  width:150px;
-  height:150px;
-  background:#ff4b5c;
-  border-radius:10px;
-  transition: all 0.8s ease;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:3rem;
-  color:white;
-}
+        /* Texto oculto en el centro */
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            text-align: center;
+            color: #b91d47;
+            font-weight: bold;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            z-index: 1;
+        }
 
-/* 4 lados */
-.top{top:0; left:0;}
-.bottom{bottom:0; left:0;}
-.left{top:0; left:0;}
-.right{top:0; right:0;}
+        /* Lados de la caja */
+        .side {
+            position: absolute;
+            background-color: #ff4d6d;
+            border: 2px solid #ff758f;
+            transition: all 0.8s ease-in-out;
+            z-index: 2;
+        }
 
-.texto{
-  margin-top:20px;
-  font-size:1.5rem;
-  color:white;
-  text-align:center;
-  min-height:80px;
-  max-width:90%;
-}
+        .top    { width: 100%; height: 50%; top: 0; left: 0; transform-origin: top; }
+        .bottom { width: 100%; height: 50%; bottom: 0; left: 0; transform-origin: bottom; }
+        .left   { width: 50%; height: 100%; top: 0; left: 0; transform-origin: left; }
+        .right  { width: 50%; height: 100%; top: 0; right: 0; transform-origin: right; }
 
-/* corazones flotando */
-.corazon{
-  position:absolute;
-  color:#ff1f4b;
-  font-size:25px;
-  animation:flotar 6s linear forwards;
-}
+        /* Efecto al abrir (Hover o Click) */
+        .box-container:hover .top    { transform: rotateX(110deg); opacity: 0.3; }
+        .box-container:hover .bottom { transform: rotateX(-110deg); opacity: 0.3; }
+        .box-container:hover .left   { transform: rotateY(-110deg); opacity: 0.3; }
+        .box-container:hover .right  { transform: rotateY(110deg); opacity: 0.3; }
 
-@keyframes flotar{
-  from{transform:translateY(0);}
-  to{transform:translateY(-300px);}
-}
-</style>
+        /* Corazones animados */
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff0000;
+            font-size: 20px;
+            pointer-events: none;
+            display: none;
+        }
+
+        .box-container:hover .heart {
+            display: block;
+            animation: float 2s infinite ease-out;
+        }
+    </style>
 </head>
 <body>
 
-<div id="mensajeInicial">Para mi noviecita preciosa ❤️</div>
+    <h1>Para mi noviecita preciosa</h1>
 
-<div class="cajita" id="cajita">
-  <div class="lado top">🎁</div>
-  <div class="lado bottom"></div>
-  <div class="lado left"></div>
-  <div class="lado right"></div>
-</div>
+    <div class="box-container">
+        <div class="message">
+            No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. 
+            <br><br>
+            Feliz 14 de febrero a la mujer más bonita del mundo. 
+            <br><br>
+            Que la distancia solo sea un recordatorio de lo mucho que te quiero. Te amo siempre💓.
+        </div>
 
-<div class="texto" id="texto"></div>
+        <div class="side top"></div>
+        <div class="side bottom"></div>
+        <div class="side left"></div>
+        <div class="side right"></div>
 
-<script>
-const mensajeIni = document.getElementById('mensajeInicial');
-setTimeout(()=>{ mensajeIni.style.opacity=1; },500);
+        <span class="heart" style="left: 20%; animation-delay: 0s;">❤️</span>
+        <span class="heart" style="left: 50%; animation-delay: 0.5s;">💖</span>
+        <span class="heart" style="left: 80%; animation-delay: 0.2s;">💗</span>
+        <span class="heart" style="left: 40%; animation-delay: 0.8s;">❤️</span>
+    </div>
 
-const cajita = document.getElementById('cajita');
-const lados = cajita.querySelectorAll('.lado');
-const texto = document.getElementById('texto');
-const mensajeTexto = "No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. Feliz 14 de febrero a la mujer más bonita del mundo. Que la distancia solo sea un recordatorio de lo mucho que te quiero y de lo mucho que te necesito conmigo. Te amo siempre💓. Te amo bonita ❤️";
-
-cajita.addEventListener('click', ()=>{
-  // Animar apertura de 4 lados
-  lados.forEach(lado=>{
-    if(lado.classList.contains('top')) lado.style.transform = 'translateY(-200px) rotateX(45deg)';
-    if(lado.classList.contains('bottom')) lado.style.transform = 'translateY(200px) rotateX(-45deg)';
-    if(lado.classList.contains('left')) lado.style.transform = 'translateX(-200px) rotateY(-45deg)';
-    if(lado.classList.contains('right')) lado.style.transform = 'translateX(200px) rotateY(45deg)';
-  });
-
-  // Lanzar corazones desde la caja
-  for(let i=0;i<30;i++){
-    setTimeout(()=>{
-      const corazon = document.createElement('div');
-      corazon.classList.add('corazon');
-      corazon.innerHTML="❤️";
-      corazon.style.left = (cajita.offsetLeft + 75) + Math.random()*50 -25 + "px";
-      corazon.style.top = (cajita.offsetTop + 75) + "px";
-      document.body.appendChild(corazon);
-      setTimeout(()=>{ corazon.remove(); },6000);
-    }, i*100);
-  }
-
-  // Escribir mensaje letra por letra
-  texto.innerHTML = '';
-  let i = 0;
-  function escribir(){
-    if(i<mensajeTexto.length){
-      texto.innerHTML += mensajeTexto[i];
-      i++;
-      setTimeout(escribir,40);
-    }
-  }
-  setTimeout(escribir, 800); // espera que la caja abra
-});
-</script>
+    <p style="margin-top: 40px; color: #888; font-size: 0.8rem;">(Pasa el mouse o toca la cajita)</p>
 
 </body>
 </html>
