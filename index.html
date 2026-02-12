@@ -26,8 +26,8 @@ body{
 }
 
 .cajita{
-  width:200px;
-  height:200px;
+  width:180px;
+  height:180px;
   background-color:#ff4b5c;
   border-radius:20px;
   display:flex;
@@ -38,10 +38,21 @@ body{
   transition: transform 0.3s ease;
   font-size:4rem;
   color:white;
+  position:relative;
+  perspective:600px;
 }
 
-.cajita:hover{
-  transform:scale(1.1);
+.tapa{
+  width:100%;
+  height:50%;
+  background:#ff1f4b;
+  border-radius:20px 20px 0 0;
+  position:absolute;
+  top:0;
+  left:0;
+  transform-origin:top;
+  transform: rotateX(0deg);
+  transition: transform 0.8s ease;
 }
 
 .texto{
@@ -70,7 +81,11 @@ body{
 
 <div id="mensajeInicial">Para mi noviecita preciosa ❤️</div>
 
-<div class="cajita" id="cajita">🎁</div>
+<div class="cajita" id="cajita">
+  <div class="tapa" id="tapa"></div>
+  🎁
+</div>
+
 <div class="texto" id="texto"></div>
 
 <script>
@@ -81,23 +96,31 @@ setTimeout(()=>{ mensajeIni.style.opacity=1; },500);
 // texto que se escribe
 const texto = document.getElementById('texto');
 const mensajeTexto = "Te amo bonita ❤️";
-
 let i = 0;
 
+// abrir cajita
 const cajita = document.getElementById('cajita');
-cajita.addEventListener('click', () => {
-  cajita.style.display = "none"; // la cajita desaparece al abrir
-  texto.innerHTML = '';
-  i = 0;
+const tapa = document.getElementById('tapa');
 
-  function escribir() {
-    if(i < mensajeTexto.length){
-      texto.innerHTML += mensajeTexto[i];
-      i++;
-      setTimeout(escribir,100);
+cajita.addEventListener('click', () => {
+  // animar la tapa
+  tapa.style.transform = "rotateX(-120deg)";
+  
+  // esperar medio segundo y mostrar mensaje
+  setTimeout(()=>{
+    cajita.style.transform = "scale(0.9)";
+    texto.innerHTML = '';
+    i = 0;
+
+    function escribir() {
+      if(i < mensajeTexto.length){
+        texto.innerHTML += mensajeTexto[i];
+        i++;
+        setTimeout(escribir,100);
+      }
     }
-  }
-  escribir();
+    escribir();
+  },500);
 });
 
 // corazones flotando
