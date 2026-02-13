@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para mi niña preciosa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #fff0f3;
@@ -14,113 +14,102 @@
             justify-content: flex-start;
             min-height: 100vh;
             margin: 0;
-            font-family: sans-serif;
+            font-family: 'Quicksand', sans-serif;
             overflow: hidden;
-            perspective: 1000px; /* Necesario para el efecto 3D */
+            perspective: 1200px;
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: #d63384;
-            font-size: 2.2rem;
-            margin-top: 20px;
-            z-index: 20;
-        }
-
-        /* FOTOS CIRCULARES */
+        /* FOTOS: Ajuste de posición para que no choquen */
         .foto-circular {
             position: absolute;
-            width: 90px;
-            height: 90px;
+            width: 85px;
+            height: 85px;
             border-radius: 50%;
-            border: 4px solid #ffb3c1;
+            border: 3px solid #ffb3c1;
             object-fit: cover;
             z-index: 10;
-            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
-            animation: flotar 4s infinite ease-in-out;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.2);
         }
-        .foto1 { top: 5%; left: 5%; }
-        .foto2 { top: 5%; right: 5%; }
-        .foto3 { bottom: 10%; left: 5%; }
-        .foto4 { bottom: 10%; right: 5%; }
+        .foto1 { top: 3%; left: 3%; }
+        .foto2 { top: 3%; right: 3%; }
+        .foto3 { bottom: 12%; left: 3%; } /* Subidas para que no estén tan abajo */
+        .foto4 { bottom: 12%; right: 3%; }
 
-        @keyframes flotar {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* CONTADOR */
+        /* CONTADOR: Más compacto y centrado */
         .contador-container {
-            margin: 10px 0;
+            margin-top: 40px; /* Bajado un poco para no estorbar fotos superiores */
             text-align: center;
-            z-index: 20;
+            z-index: 30;
             color: #d63384;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 15px;
             border-radius: 15px;
             border: 1px solid #ffb3c1;
+            max-width: 200px;
         }
-        .reloj { font-size: 1.2rem; font-weight: bold; }
+        .reloj { font-size: 1.1rem; font-weight: bold; font-family: sans-serif; }
+
+        /* TÍTULO QUE DESAPARECE */
+        #titulo-personalizado {
+            font-family: 'Dancing Script', cursive;
+            color: #d63384;
+            font-size: 1.8rem;
+            margin-top: 20px;
+            transition: all 0.5s ease;
+            z-index: 25;
+        }
+        .ocultar-titulo { opacity: 0; transform: translateY(-10px); }
 
         /* CAJA 3D */
         .gift-container {
             position: relative;
-            width: 200px;
-            height: 200px;
-            margin-top: 50px;
+            width: 170px;
+            height: 150px;
+            margin-top: 30px;
             transform-style: preserve-3d;
-            transition: transform 1s;
+            transform: rotateX(-15deg) rotateY(15deg);
+            transition: transform 1s ease;
             cursor: pointer;
         }
+        .gift-container.open { transform: rotateX(-20deg) rotateY(20deg) translateY(50px); }
 
-        /* Cuando se abre, la caja se inclina un poco para ver el interior */
-        .gift-container.open {
-            transform: rotateX(-20deg) rotateY(20deg);
-        }
-
-        /* Caras de la caja */
         .face {
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 170px;
+            height: 150px;
             background: #ff758f;
             border: 2px solid #ff4d6d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             box-sizing: border-box;
         }
+        .front  { transform: translateZ(85px); }
+        .back   { transform: rotateY(180deg) translateZ(85px); }
+        .left   { transform: rotateY(-90deg) translateZ(85px); }
+        .right  { transform: rotateY(90deg) translateZ(85px); }
+        .bottom { transform: rotateX(-90deg) translateZ(75px); background: #e63946; height: 170px; }
 
-        .front  { transform: translateZ(100px); }
-        .back   { transform: rotateY(180deg) translateZ(100px); }
-        .left   { transform: rotateY(-90deg) translateZ(100px); }
-        .right  { transform: rotateY(90deg) translateZ(100px); }
-        .bottom { transform: rotateX(-90deg) translateZ(100px); background: #e63946; }
-
-        /* La Tapa 3D */
+        /* TAPA */
         .lid {
             position: absolute;
-            width: 210px;
-            height: 210px;
+            width: 180px;
+            height: 180px;
             background: #ff4d6d;
             border: 2px solid #d63384;
             top: -5px;
             left: -5px;
-            transform: rotateX(90deg) translateZ(105px);
+            transform: rotateX(90deg) translateZ(85px);
             transform-origin: top;
-            transition: transform 1s ease;
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 10;
         }
+        .gift-container.open .lid { transform: rotateX(90deg) rotateX(-120deg) translateZ(85px); }
 
-        /* Animación de apertura de la tapa */
-        .gift-container.open .lid {
-            transform: rotateX(90deg) rotateX(-110deg) translateZ(105px);
-        }
-
-        .message-inside {
+        /* NOTA QUE SALE */
+        .message-card {
             position: absolute;
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 140px;
+            left: 10px;
+            top: 5px;
             background: white;
             color: #c9184a;
             padding: 10px;
@@ -128,13 +117,23 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-            transform: rotateX(0deg) translateZ(0px); /* Dentro de la caja */
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            font-family: 'Dancing Script', cursive;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 1s ease 0.3s;
+            transform: translateZ(0);
+            z-index: 1;
+            box-sizing: border-box;
+        }
+        .gift-container.open .message-card {
+            transform: translateZ(0) translateY(-150px) rotateX(5deg);
+            height: 200px;
+            width: 210px;
+            left: -20px;
+            font-size: 1.1rem;
         }
 
-        .instruccion { margin-top: 60px; color: #ff85a1; font-size: 13px; }
+        .guia { margin-top: 60px; color: #ff85a1; font-size: 13px; z-index: 5; }
 
     </style>
 </head>
@@ -145,20 +144,20 @@
     <img src="Foto3.jpg" class="foto-circular foto3">
     <img src="Foto4.jpg" class="foto-circular foto4">
 
-    <h1>Para mi noviecita preciosa 💓</h1>
-
     <div class="contador-container">
-        <div style="font-size: 0.8rem;">Nuestro amor comenzó hace...</div>
-        <div id="tiempo-transcurrido" class="reloj">Cargando...</div>
+        <div style="font-size: 0.75rem;">Nuestro amor comenzó hace...</div>
+        <div id="reloj" class="reloj">Cargando...</div>
     </div>
 
-    <div class="gift-container" onclick="this.classList.toggle('open')">
-        <div class="message-inside">
+    <h1 id="titulo-personalizado">Para mi noviecita preciosa 💓</h1>
+
+    <div class="gift-container" onclick="abrirCaja()">
+        <div class="message-card">
             No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. 
             <br><br>
             Feliz 14 de febrero a la mujer más bonita del mundo. 
             <br><br>
-            Te amo siempre💓.
+            Te amo siempre ❤️
         </div>
         <div class="face front"></div>
         <div class="face back"></div>
@@ -168,19 +167,34 @@
         <div class="lid"></div>
     </div>
 
-    <p class="instruccion">(Toca la cajita para ver la magia)</p>
+    <p class="guia" id="guia-texto">Toca la cajita para abrirla</p>
 
     <script>
+        function abrirCaja() {
+            const box = document.querySelector('.gift-container');
+            const titulo = document.getElementById('titulo-personalizado');
+            const guia = document.getElementById('guia-texto');
+            
+            box.classList.toggle('open');
+            
+            if(box.classList.contains('open')) {
+                titulo.classList.add('ocultar-titulo');
+                guia.style.opacity = "0";
+            } else {
+                titulo.classList.remove('ocultar-titulo');
+                guia.style.opacity = "1";
+            }
+        }
+
         function actualizarContador() {
-            const fechaInicio = new Date("2023-02-11T00:00:00");
+            const inicio = new Date("2023-02-11T00:00:00");
             const ahora = new Date();
-            const diferencia = ahora - fechaInicio;
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-            const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
-            const segundos = Math.floor((diferencia / 1000) % 60);
-            document.getElementById("tiempo-transcurrido").innerHTML = 
-                dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+            const diff = ahora - inicio;
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById("reloj").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
         }
         setInterval(actualizarContador, 1000);
         actualizarContador();
