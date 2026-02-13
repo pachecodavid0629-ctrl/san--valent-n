@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi niña</title>
+    <title>Para mi noviecita preciosa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #fff0f3;
@@ -14,16 +15,38 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
         }
 
+        /* Título manuscrito que desaparece */
         h1 {
-            color: #ff4d6d;
-            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            color: #d63384;
+            font-size: 3rem;
             margin-bottom: 20px;
-            z-index: 10;
+            transition: opacity 0.5s ease;
+            text-align: center;
+            z-index: 20;
         }
 
-        /* Contenedor principal */
+        /* Animación para que las flores floten */
+        @keyframes floatFlowers {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .flower {
+            position: absolute;
+            font-size: 30px; /* Flores más pequeñas */
+            z-index: 0;
+            opacity: 0.7;
+            user-select: none;
+            animation: floatFlowers 4s infinite ease-in-out;
+        }
+
+        /* Contenedor de la caja */
         .gift-container {
             position: relative;
             width: 300px;
@@ -31,89 +54,68 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 10;
         }
 
-        /* El mensaje de texto que estará adentro */
+        /* Desaparecer título al tocar la caja */
+        body:has(.gift-container:hover) h1 {
+            opacity: 0;
+        }
+
+        /* Mensaje central */
         .message-inside {
             position: absolute;
             padding: 20px;
             text-align: center;
             color: #c9184a;
-            font-size: 14px;
+            font-size: 0.95rem;
             font-weight: bold;
-            line-height: 1.5;
-            z-index: 1; /* Detrás de las tapas al inicio */
+            line-height: 1.4;
+            z-index: 1;
+            background: white;
+            border-radius: 10px;
         }
 
-        /* Las tapas de la caja */
+        /* Lados de la caja */
         .lid {
             position: absolute;
             background-color: #ff758f;
-            border: 1px solid #ffb3c1;
-            transition: all 1s ease-in-out;
+            border: 2px solid #ff4d6d;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 5;
         }
 
-        /* Posiciones iniciales (Cerrada) */
         .top    { width: 100%; height: 50%; top: 0; transform-origin: top; }
         .bottom { width: 100%; height: 50%; bottom: 0; transform-origin: bottom; }
         .left   { width: 50%; height: 100%; left: 0; transform-origin: left; }
         .right  { width: 50%; height: 100%; right: 0; transform-origin: right; }
 
-        /* Efecto al pasar el mouse o tocar */
-        .gift-container:hover .top    { transform: perspective(1000px) rotateX(110deg); opacity: 0.5; }
-        .gift-container:hover .bottom { transform: perspective(1000px) rotateX(-110deg); opacity: 0.5; }
-        .gift-container:hover .left   { transform: perspective(1000px) rotateY(-110deg); opacity: 0.5; }
-        .gift-container:hover .right  { transform: perspective(1000px) rotateY(110deg); opacity: 0.5; }
+        /* Apertura */
+        .gift-container:hover .top    { transform: perspective(1000px) rotateX(110deg); opacity: 0; }
+        .gift-container:hover .bottom { transform: perspective(1000px) rotateX(-110deg); opacity: 0; }
+        .gift-container:hover .left   { transform: perspective(1000px) rotateY(-110deg); opacity: 0; }
+        .gift-container:hover .right  { transform: perspective(1000px) rotateY(110deg); opacity: 0; }
 
-        /* Corazones animados */
-        @keyframes shoot {
-            0% { transform: translate(0,0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 0; }
+        /* Corazones que saltan */
+        @keyframes shootHeart {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(2); opacity: 0; }
         }
 
         .heart {
             position: absolute;
             display: none;
-            color: red;
-            font-size: 24px;
-            z-index: 6;
+            color: #ff0000;
+            font-size: 30px;
+            top: 50%;
+            left: 50%;
+            z-index: 15;
         }
 
         .gift-container:hover .heart {
             display: block;
-            animation: shoot 1.5s infinite;
+            animation: shootHeart 1.5s infinite ease-out;
         }
     </style>
 </head>
 <body>
-
-    <h1>Para mi noviecita preciosa</h1>
-
-    <div class="gift-container">
-        <div class="message-inside">
-            No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. 
-            <br><br>
-            Feliz 14 de febrero a la mujer más bonita del mundo. 
-            <br><br>
-            Que la distancia solo sea un recordatorio de lo mucho que te quiero y de lo mucho que te necesito conmigo. 
-            <br><br>
-            Te amo siempre💓.
-        </div>
-
-        <div class="lid top"></div>
-        <div class="lid bottom"></div>
-        <div class="lid left"></div>
-        <div class="lid right"></div>
-
-        <span class="heart" style="--x: -100px; --y: -150px;">❤️</span>
-        <span class="heart" style="--x: 100px; --y: -150px;">💖</span>
-        <span class="heart" style="--x: -120px; --y: 100px;">💗</span>
-        <span class="heart" style="--x: 120px; --y: 100px;">❤️</span>
-        <span class="heart" style="--x: 0px; --y: -180px;">💕</span>
-    </div>
-
-    <p style="margin-top: 20px; color: #ff85a1;">(Pasa el mouse o toca la cajita para abrirla)</p>
-
-</body>
-</html>
