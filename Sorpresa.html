@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi noviecita preciosa</title>
+    <title>Para mi niña preciosa</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -18,17 +18,10 @@
             color: #590d22;
         }
 
-        /* Corazón Inicial */
         #boton-inicio {
             text-align: center;
             cursor: pointer;
             z-index: 100;
-        }
-
-        #boton-inicio h2 {
-            font-family: 'Dancing Script', cursive;
-            color: #ff4d6d;
-            margin-top: 10px;
         }
 
         .corazon-latido {
@@ -43,83 +36,54 @@
             100% { transform: scale(1); }
         }
 
-        /* Contenedor Principal (Oculto al inicio) */
         .contenido {
             display: none;
             width: 100%;
             max-width: 1200px;
             height: 90vh;
             padding: 20px;
-            box-sizing: border-box;
             position: relative;
+            flex-direction: row;
+            align-items: center;
         }
 
-        /* Texto a la izquierda */
         .columna-texto {
             width: 45%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #c9184a;
-            padding-right: 20px;
-            z-index: 10;
+            padding: 20px;
         }
 
-        /* Árbol a la derecha */
         .columna-arbol {
             width: 55%;
-            height: 100%;
-            position: relative;
             display: flex;
             justify-content: center;
             align-items: flex-end;
+            position: relative;
         }
 
-        canvas {
-            max-width: 100%;
-            height: auto;
-        }
+        canvas { max-width: 100%; }
 
-        /* Etiqueta flotante */
-        .etiqueta {
-            position: absolute;
-            right: 15%;
-            top: 45%;
-            background: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 2px solid #ff4d6d;
-            color: #ff4d6d;
-            font-weight: bold;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: opacity 1s;
-        }
-
-        /* Contador abajo */
         .contador {
             position: absolute;
             bottom: 20px;
-            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
             text-align: center;
-            font-size: 1.2rem;
+            width: 100%;
         }
 
         .tiempo {
-            display: block;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #ff4d6d;
-            margin-top: 5px;
+            display: block;
         }
 
         @media (max-width: 768px) {
-            .contenido { flex-direction: column; }
-            .columna-texto, .columna-arbol { width: 100%; height: 50%; }
-            .columna-texto { font-size: 1.2rem; text-align: center; padding: 0; }
+            .contenido { flex-direction: column; overflow-y: auto; }
+            .columna-texto, .columna-arbol { width: 100%; }
         }
     </style>
 </head>
@@ -127,109 +91,77 @@
 
     <div id="boton-inicio">
         <div class="corazon-latido">❤️</div>
-        <h2>Toca para ti, mi niña</h2>
+        <h2 style="font-family: 'Dancing Script'; color: #ff4d6d;">Tócame, bonita</h2>
     </div>
 
     <div class="contenido" id="interfaz">
         <div class="columna-texto" id="maquina-escribir"></div>
-        
         <div class="columna-arbol">
-            <div class="etiqueta" id="etiqueta-novia">Para mi noviecita preciosa ❤️</div>
             <canvas id="canvas-arbol"></canvas>
         </div>
-
         <div class="contador">
-            Mi amor por ti comenzó hace...
+            Nuestro amor comenzó hace...
             <div id="reloj" class="tiempo"></div>
         </div>
     </div>
 
     <script>
-        const textoParaEscribir = "No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo.\n\nFeliz 14 de febrero a la mujer más bonita del mundo.\n\nQue la distancia solo sea un recordatorio de lo mucho que te quiero y de lo mucho que te necesito conmigo.\n\nTe amo, Bonita ❤️";
+        const texto = "No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo.\n\nFeliz 14 de febrero a la mujer más bonita del mundo.\n\nQue la distancia solo sea un recordatorio de lo mucho que te quiero y de lo mucho que te necesito conmigo.\n\nTe amo, Bonita ❤️";
 
         function iniciar() {
             document.getElementById('boton-inicio').style.display = 'none';
             document.getElementById('interfaz').style.display = 'flex';
-            
-            escribirTexto();
-            dibujarArbol();
-            actualizarReloj();
+            escribir();
+            dibujar();
             setInterval(actualizarReloj, 1000);
-            
-            setTimeout(() => {
-                document.getElementById('etiqueta-novia').style.opacity = '1';
-            }, 3000);
         }
 
         document.getElementById('boton-inicio').onclick = iniciar;
 
-        // --- MAQUINA DE ESCRIBIR ---
-        let indice = 0;
-        function escribirTexto() {
-            if (indice < textoParaEscribir.length) {
-                let char = textoParaEscribir.charAt(indice);
-                document.getElementById('maquina-escribir').innerHTML += char === "\n" ? "<br>" : char;
-                indice++;
-                setTimeout(escribirTexto, 60);
+        let i = 0;
+        function escribir() {
+            if (i < texto.length) {
+                document.getElementById('maquina-escribir').innerHTML += texto.charAt(i) === "\n" ? "<br>" : texto.charAt(i);
+                i++;
+                setTimeout(escribir, 50);
             }
         }
 
-        // --- CONTADOR DE TIEMPO ---
         function actualizarReloj() {
-            const fechaInicio = new Date("2023-02-11T00:00:00");
+            const inicio = new Date("2023-02-11T00:00:00");
             const ahora = new Date();
-            const diferencia = ahora - fechaInicio;
-
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-            const minutos = Math.floor((diferencia / 1000 / 60) % 60);
-            const segundos = Math.floor((diferencia / 1000) % 60);
-
-            document.getElementById('reloj').innerText = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+            const diff = ahora - inicio;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            document.getElementById('reloj').innerText = `${d}d ${h}h ${m}m ${s}s`;
         }
 
-        // --- ARBOL DE CORAZONES ---
-        function dibujarArbol() {
-            const canvas = document.getElementById('canvas-arbol');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 500;
-            canvas.height = 500;
-
-            function corazon(x, y, radio, color) {
-                ctx.save();
-                ctx.beginPath();
-                ctx.translate(x, y);
-                ctx.rotate(Math.PI);
-                ctx.moveTo(0, 0);
-                ctx.bezierCurveTo(-radio / 2, radio / 2, -radio, -radio / 4, 0, -radio);
-                ctx.bezierCurveTo(radio, -radio / 4, radio / 2, radio / 2, 0, 0);
-                ctx.fillStyle = color;
-                ctx.fill();
-                ctx.restore();
-            }
-
-            let alturaTronco = 0;
-            const crecerTronco = setInterval(() => {
+        function dibujar() {
+            const cvs = document.getElementById('canvas-arbol');
+            const ctx = cvs.getContext('2d');
+            cvs.width = 500; cvs.height = 500;
+            let h = 0;
+            const t = setInterval(() => {
                 ctx.fillStyle = "#590d22";
-                ctx.fillRect(245, 500 - alturaTronco, 10, 2);
-                alturaTronco += 2;
-                
-                if (alturaTronco > 180) {
-                    clearInterval(crecerTronco);
-                    for (let i = 0; i < 150; i++) {
+                ctx.fillRect(245, 500 - h, 10, 2);
+                h += 2;
+                if (h > 150) {
+                    clearInterval(t);
+                    for (let j = 0; j < 100; j++) {
                         setTimeout(() => {
-                            const angulo = Math.random() * Math.PI * 2;
-                            const dist = Math.sqrt(Math.random()) * 120;
-                            const cx = 250 + Math.cos(angulo) * dist;
-                            const cy = 250 + Math.sin(angulo) * dist * 0.8;
-                            const tam = 5 + Math.random() * 10;
-                            const colores = ['#ff4d6d', '#ff758f', '#c9184a', '#ffb3c1'];
-                            corazon(cx, cy, tam, colores[Math.floor(Math.random() * colores.length)]);
-                        }, i * 20);
+                            ctx.fillStyle = "#ff4d6d";
+                            const x = 250 + (Math.random() - 0.5) * 200;
+                            const y = 200 + (Math.random() - 0.5) * 150;
+                            ctx.beginPath();
+                            ctx.arc(x, y, 5, 0, Math.PI * 2);
+                            ctx.fill();
+                        }, j * 30);
                     }
                 }
             }, 10);
         }
     </script>
 </body>
-  </html>
+</html>
