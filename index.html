@@ -11,111 +11,131 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
             margin: 0;
             font-family: sans-serif;
             overflow: hidden;
-            position: relative;
+            perspective: 1000px; /* Necesario para el efecto 3D */
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
             color: #d63384;
             font-size: 2.2rem;
-            margin-bottom: 20px;
-            text-align: center;
+            margin-top: 20px;
             z-index: 20;
-            transition: 0.5s;
         }
 
+        /* FOTOS CIRCULARES */
         .foto-circular {
             position: absolute;
-            width: 110px;
-            height: 110px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             border: 4px solid #ffb3c1;
             object-fit: cover;
-            object-position: center;
             z-index: 10;
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
             animation: flotar 4s infinite ease-in-out;
         }
-
-        .foto1 { top: 5%; left: 8%; animation-delay: 0s; }
-        .foto2 { top: 5%; right: 8%; animation-delay: 1s; }
-        .foto3 { bottom: 15%; left: 8%; animation-delay: 0.5s; }
-        .foto4 { bottom: 15%; right: 8%; animation-delay: 1.5s; }
+        .foto1 { top: 5%; left: 5%; }
+        .foto2 { top: 5%; right: 5%; }
+        .foto3 { bottom: 10%; left: 5%; }
+        .foto4 { bottom: 10%; right: 5%; }
 
         @keyframes flotar {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-12px) scale(1.02); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
+        /* CONTADOR */
+        .contador-container {
+            margin: 10px 0;
+            text-align: center;
+            z-index: 20;
+            color: #d63384;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 15px;
+            border-radius: 15px;
+            border: 1px solid #ffb3c1;
+        }
+        .reloj { font-size: 1.2rem; font-weight: bold; }
+
+        /* CAJA 3D */
         .gift-container {
             position: relative;
-            width: 250px;
-            height: 250px;
+            width: 200px;
+            height: 200px;
+            margin-top: 50px;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            cursor: pointer;
+        }
+
+        /* Cuando se abre, la caja se inclina un poco para ver el interior */
+        .gift-container.open {
+            transform: rotateX(-20deg) rotateY(20deg);
+        }
+
+        /* Caras de la caja */
+        .face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: #ff758f;
+            border: 2px solid #ff4d6d;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 15;
-            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .front  { transform: translateZ(100px); }
+        .back   { transform: rotateY(180deg) translateZ(100px); }
+        .left   { transform: rotateY(-90deg) translateZ(100px); }
+        .right  { transform: rotateY(90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); background: #e63946; }
+
+        /* La Tapa 3D */
+        .lid {
+            position: absolute;
+            width: 210px;
+            height: 210px;
+            background: #ff4d6d;
+            border: 2px solid #d63384;
+            top: -5px;
+            left: -5px;
+            transform: rotateX(90deg) translateZ(105px);
+            transform-origin: top;
+            transition: transform 1s ease;
+            z-index: 10;
+        }
+
+        /* Animación de apertura de la tapa */
+        .gift-container.open .lid {
+            transform: rotateX(90deg) rotateX(-110deg) translateZ(105px);
         }
 
         .message-inside {
             position: absolute;
-            width: 85%;
-            text-align: center;
-            color: #c9184a;
-            font-size: 0.85rem;
-            font-weight: bold;
-            z-index: 1;
+            width: 180px;
+            height: 180px;
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
-
-        .lid {
-            position: absolute;
-            background-color: #ff758f;
-            border: 2px solid #ff4d6d;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-        }
-
-        .top    { width: 100%; height: 50%; top: 0; transform-origin: top; }
-        .bottom { width: 100%; height: 50%; bottom: 0; transform-origin: bottom; }
-        .left   { width: 50%; height: 100%; left: 0; transform-origin: left; }
-        .right  { width: 50%; height: 100%; right: 0; transform-origin: right; }
-
-        /* Efecto de apertura al pasar el mouse o tocar */
-        .gift-container:hover .top, .gift-container:active .top { transform: perspective(1000px) rotateX(110deg); opacity: 0; }
-        .gift-container:hover .bottom, .gift-container:active .bottom { transform: perspective(1000px) rotateX(-110deg); opacity: 0; }
-        .gift-container:hover .left, .gift-container:active .left { transform: perspective(1000px) rotateY(-110deg); opacity: 0; }
-        .gift-container:hover .right, .gift-container:active .right { transform: perspective(1000px) rotateY(110deg); opacity: 0; }
-
-        /* ESTILO DEL CONTADOR (Agregado abajo para que no estorbe) */
-        .contador-container {
-            position: absolute;
-            bottom: 20px;
+            color: #c9184a;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            width: 100%;
-            z-index: 20;
-            color: #d63384;
-            font-family: sans-serif;
-        }
-        
-        .reloj {
-            font-size: 1.2rem;
+            font-size: 0.8rem;
             font-weight: bold;
-            margin-top: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 5px 10px;
-            border-radius: 20px;
-            display: inline-block;
+            transform: rotateX(0deg) translateZ(0px); /* Dentro de la caja */
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
         }
+
+        .instruccion { margin-top: 60px; color: #ff85a1; font-size: 13px; }
+
     </style>
 </head>
 <body>
@@ -127,7 +147,12 @@
 
     <h1>Para mi noviecita preciosa 💓</h1>
 
-    <div class="gift-container">
+    <div class="contador-container">
+        <div style="font-size: 0.8rem;">Nuestro amor comenzó hace...</div>
+        <div id="tiempo-transcurrido" class="reloj">Cargando...</div>
+    </div>
+
+    <div class="gift-container" onclick="this.classList.toggle('open')">
         <div class="message-inside">
             No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. 
             <br><br>
@@ -135,29 +160,16 @@
             <br><br>
             Te amo siempre💓.
         </div>
-        <div class="lid top"></div>
-        <div class="lid bottom"></div>
-        <div class="lid left"></div>
-        <div class="lid right"></div>
+        <div class="face front"></div>
+        <div class="face back"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+        <div class="face bottom"></div>
+        <div class="lid"></div>
     </div>
 
-    <p style="margin-top: 10px; color: #ff85a1; font-size: 13px;">(Toca la cajita para abrirla)</p>
-
-    <div class="contador-container">
-        <div style="font-size: 0.9rem;">Nuestro amor comenzó hace...</div>
-        <div id="tiempo-transcurrido" class="reloj">Cargando tiempo...</div>
-    </div>
+    <p class="instruccion">(Toca la cajita para ver la magia)</p>
 
     <script>
         function actualizarContador() {
-            const fechaInicio = new Date("2023-02-11T00:00:00");
-            const ahora = new Date();
-            const diferencia = ahora - fechaInicio;
-
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-            const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
-            const segundos = Math.floor((diferencia / 1000) % 60);
-
-            document.getElementById("tiempo-transcurrido").innerHTML = 
-                dias + "d " + horas + "h "
+            const fechaInicio = new Date
