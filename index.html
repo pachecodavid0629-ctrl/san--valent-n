@@ -3,215 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi noviecita preciosa</title>
+    <title>Para mi niña preciosa</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            margin: 0;
-            background-color: #fdf0f0;
-            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            justify-content: flex-start; /* Alinea hacia arriba para dar espacio */
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden; /* Evita que se mueva de lado */
         }
 
-        /* Corazón inicial */
-        #heart-trigger {
-            cursor: pointer;
-            text-align: center;
-            z-index: 100;
-        }
-        .big-heart { font-size: 80px; color: #e63946; animation: beat 1.2s infinite; }
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        #main-wrapper {
-            display: none;
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        /* Texto a la izquierda */
-        #text-content {
-            position: absolute;
-            left: 5%;
-            top: 10%;
-            width: 40%;
+        h1 {
             font-family: 'Dancing Script', cursive;
-            color: #b91d1d;
-            font-size: 1.5rem;
-            line-height: 1.5;
+            color: #d63384;
+            font-size: 2rem;
+            margin: 40px 0 20px 0;
             z-index: 20;
+            text-align: center;
+            padding: 0 10px;
         }
 
-        /* Contenedor del Árbol */
-        #tree-canvas {
+        /* FOTOS: Distribuidas para no estorbar */
+        .foto-circular {
             position: absolute;
-            right: 0;
-            bottom: 80px;
-            width: 60%;
-            height: 80%;
-        }
-
-        /* Fotos flotantes (Pequeñas y elegantes) */
-        .foto-fruto {
-            position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             border: 3px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             object-fit: cover;
-            opacity: 0;
-            transition: opacity 1.5s, transform 3s infinite ease-in-out;
+            z-index: 5;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+            animation: flotar 4s infinite ease-in-out;
+        }
+
+        .foto1 { top: 20px; left: 10px; }
+        .foto2 { top: 20px; right: 10px; }
+        .foto3 { top: 120px; left: -10px; } /* Un poco desfasadas para estilo */
+        .foto4 { top: 120px; right: -10px; }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* CAJITA: Espacio central */
+        .gift-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 40px 0;
+            cursor: pointer;
             z-index: 15;
         }
 
-        @keyframes flotarFoto {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-
-        /* Etiqueta */
-        .label-target {
+        .message-inside {
             position: absolute;
-            right: 20%;
-            top: 40%;
+            width: 100%;
+            height: 100%;
             background: white;
-            padding: 8px 15px;
-            border-left: 5px solid #ff4d6d;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-            color: #b91d1d;
+            border-radius: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #c9184a;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.3rem;
-            opacity: 0;
-            transition: opacity 2s;
-            z-index: 25;
+            font-size: 1rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
         }
 
-        /* Contador */
-        #counter-box {
+        .lid {
             position: absolute;
-            bottom: 30px;
-            left: 5%;
-            color: #4a4a4a;
-            z-index: 20;
-        }
-        .timer-text {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #333;
+            background-color: #ff758f;
+            border: 2px solid #ff4d6d;
+            transition: all 0.8s ease;
+            z-index: 10;
         }
 
-        @media (max-width: 768px) {
-            #text-content { width: 90%; font-size: 1.1rem; top: 5%; }
-            #tree-canvas { width: 100%; height: 50%; bottom: 120px; }
-            .foto-fruto { width: 60px; height: 60px; }
+        .top    { width: 100%; height: 50%; top: 0; transform-origin: top; }
+        .bottom { width: 100%; height: 50%; bottom: 0; transform-origin: bottom; }
+        .left   { width: 50%; height: 100%; left: 0; transform-origin: left; }
+        .right  { width: 50%; height: 100%; right: 0; transform-origin: right; }
+
+        .opened .top    { transform: perspective(1000px) rotateX(110deg); opacity: 0; }
+        .opened .bottom { transform: perspective(1000px) rotateX(-110deg); opacity: 0; }
+        .opened .left   { transform: perspective(1000px) rotateY(-110deg); opacity: 0; }
+        .opened .right  { transform: perspective(1000px) rotateY(110deg); opacity: 0; }
+
+        /* CONTADOR: Al final de todo */
+        .contador-area {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 20px 0;
+            margin-top: auto; /* Empuja el contador al fondo */
+            text-align: center;
+            border-top: 2px solid #ffb3c1;
+        }
+
+        .contador-area p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #c9184a;
+        }
+
+        .tiempo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #d63384;
+            display: block;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 400px) {
+            .foto-circular { width: 70px; height: 70px; }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="heart-trigger">
-        <div class="big-heart">❤️</div>
-        <p style="color: #b91d1d; font-weight: bold;">Toca para ella</p>
+    <img src="Foto1.jpg" class="foto-circular foto1">
+    <img src="Foto2.jpg" class="foto-circular foto2">
+    <img src="Foto3.jpg" class="foto-circular foto3">
+    <img src="Foto4.jpg" class="foto-circular foto4">
+
+    <h1>Para mi noviecita preciosa 💓</h1>
+
+    <div class="gift-container" onclick="abrirCaja()">
+        <div class="message-inside" id="texto-regalo">
+            Toca la cajita...
+        </div>
+        <div class="lid top"></div>
+        <div class="lid bottom"></div>
+        <div class="lid left"></div>
+        <div class="lid right"></div>
     </div>
 
-    <div id="main-wrapper">
-        <div id="text-content"></div>
-        <div class="label-target" id="label">Para mi noviecita preciosa ❤️</div>
-        
-        <img src="Foto1.jpg" class="Foto-fruto" id="f1" style="right: 40%; top: 25%;">
-        <img src="Foto2.jpg" class="Foto-fruto" id="f2" style="right: 15%; top: 20%;">
-        <img src="Foto3.jpg" class="Foto-fruto" id="f3" style="right: 45%; top: 50%;">
-        <img src="Foto4.jpg" class="Foto-fruto" id="f4" style="right: 10%; top: 55%;">
+    <p style="color: #ff85a1; font-size: 12px; margin-bottom: 20px;">(Ábrela para leer el mensaje)</p>
 
-        <canvas id="tree-canvas"></canvas>
-
-        <div id="counter-box">
-            <div>Mi amor por ti comenzó hace...</div>
-            <div id="timer" class="timer-text"></div>
-        </div>
+    <div class="contador-area">
+        <p>Nuestro amor comenzó hace...</p>
+        <div id="reloj" class="tiempo">Calculando...</div>
     </div>
 
     <script>
-        const message = "No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo.\n\nFeliz 14 de febrero a la mujer más bonita del mundo.\n\nQue la distancia solo sea un recordatorio de lo mucho que te quiero y de lo mucho que te necesito conmigo.\n\nTe amo, Bonita ❤️";
+        const mensajeReal = "No importa dónde esté yo hoy, mi pensamiento y mi corazón están allá contigo. \n\n Feliz 14 de febrero a la mujer más bonita del mundo. \n\n Te amo siempre ❤️";
+        
+        function abrirCaja() {
+            const caja = document.querySelector('.gift-container');
+            if (!caja.classList.contains('opened')) {
+                caja.classList.add('opened');
+                escribirTexto();
+            }
+        }
 
-        document.getElementById('heart-trigger').onclick = function() {
-            this.style.display = 'none';
-            document.getElementById('main-wrapper').style.display = 'block';
-            startAnim();
-        };
-
-        function startAnim() {
-            // 1. Escribir texto
-            let idx = 0;
-            const textDiv = document.getElementById('text-content');
+        function escribirTexto() {
+            const div = document.getElementById('texto-regalo');
+            div.innerHTML = "";
+            let i = 0;
             function type() {
-                if (idx < message.length) {
-                    textDiv.innerHTML += message.charAt(idx) === "\n" ? "<br>" : message.charAt(idx);
-                    idx++;
-                    setTimeout(type, 45);
+                if (i < mensajeReal.length) {
+                    div.innerHTML += mensajeReal.charAt(i) === "\n" ? "<br>" : mensajeReal.charAt(i);
+                    i++;
+                    setTimeout(type, 50);
                 }
             }
             type();
-
-            // 2. Dibujar Árbol
-            const canvas = document.getElementById('tree-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 600; canvas.height = 600;
-            let th = 0;
-            const tInt = setInterval(() => {
-                ctx.fillStyle = "#5d4037";
-                ctx.fillRect(295, 600 - th, 8, 2);
-                th += 2;
-                if(th > 180) {
-                    clearInterval(tInt);
-                    // Aparecen hojas (corazones)
-                    for(let j=0; j<100; j++) {
-                        setTimeout(() => {
-                            const a = Math.random() * Math.PI * 2;
-                            const d = Math.sqrt(Math.random()) * 140;
-                            const x = 300 + Math.cos(a) * d;
-                            const y = 350 + Math.sin(a) * d * 0.8;
-                            ctx.fillStyle = "#ff4d6d";
-                            ctx.beginPath();
-                            ctx.arc(x, y, 4, 0, Math.PI*2);
-                            ctx.fill();
-                        }, j * 20);
-                    }
-                    // 3. Aparecer etiqueta y fotos al final del árbol
-                    setTimeout(() => {
-                        document.getElementById('label').style.opacity = '1';
-                        const fotos = document.querySelectorAll('.foto-fruto');
-                        fotos.forEach((f, index) => {
-                            setTimeout(() => {
-                                f.style.opacity = '1';
-                                f.style.animation = "flotarFoto 4s infinite ease-in-out";
-                            }, index * 800);
-                        });
-                    }, 1000);
-                }
-            }, 10);
         }
 
-        // Contador
-        function update() {
-            const start = new Date("2023-02-11T00:00:00");
-            const diff = new Date() - start;
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff / 3600000) % 24);
-            const m = Math.floor((diff / 60000) % 60);
+        function actualizarReloj() {
+            const inicio = new Date("2023-02-11T00:00:00");
+            const ahora = new Date();
+            const diff = ahora - inicio;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
             const s = Math.floor((diff / 1000) % 60);
-            document.getElementById('timer').innerText = `${d} días ${h}h ${m}m ${s}s`;
+            document.getElementById('reloj').innerText = `${d}d ${h}h ${m}m ${s}s`;
         }
-        setInterval(update, 1000);
-        update();
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
     </script>
 </body>
 </html>
